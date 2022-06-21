@@ -1,3 +1,28 @@
+<?php
+require_once("config.php");
+
+if(isset($_POST['register'])){
+    // filter data yang diinputkan
+    $name = $_POST['name'];
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $password_1 = $_POST['password1'];
+    $password_2 = $_POST['password2'];
+    
+    if ($password_1 == $password_2) {
+        $password = md5($password_1);
+        $sql = "INSERT INTO user (name, email, telepon, username, password) VALUES ('$name', '$email', '$phone', '$username', '$password')";
+        echo $sql;
+        if (mysqli_query($conn, $sql)) {
+            header('location: login.php');
+        } else {
+          die();
+        }
+      }
+    }   
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,33 +41,40 @@
                         <div class="card-body p-5">
 
                             <h3 class="mb-6 text-center">Sign Up</h3>
+                            <form action="" method="POST">
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="name">Name</label>
+                                    <input type="text" id="name" name="name" class="form-control form-control-lg" required/>
+                                </div>
 
-                            <div class="form-outline mb-4">
-                                <label class="form-label" for="name">Name</label>
-                                <input type="text" id="name" class="form-control form-control-lg" />
-                            </div>
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="username">Username</label>
+                                    <input type="text" id="username" name="username" class="form-control form-control-lg" required/>
+                                </div>
 
-                            <div class="form-outline mb-4">
-                                <label class="form-label" for="email">Email Address</label>
-                                <input type="email" id="email" class="form-control form-control-lg" />
-                            </div>
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="email">Email Address</label>
+                                    <input type="email" id="email" name="email" class="form-control form-control-lg" required/>
+                                </div>
 
-                            <div class="form-outline mb-4">
-                                <label class="form-label" for="phone">Phone</label>
-                                <input type="text" id="phone" class="form-control form-control-lg" />
-                            </div>
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="phone">Phone</label>
+                                    <input type="text" id="phone" name="phone" class="form-control form-control-lg" required/>
+                                </div>
 
-                            <div class="form-outline mb-4">
-                                <label class="form-label" for="password">Password</label>
-                                <input type="password" id="password" class="form-control form-control-lg" />
-                            </div>
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="password">Password</label>
+                                    <input type="password" id="password" name="password1" class="form-control form-control-lg" required/>
+                                </div>
 
-                            <div class="form-outline mb-4">
-                                <label class="form-label" for="password2">Confirm Password</label>
-                                <input type="password" id="password2" class="form-control form-control-lg" />
-                            </div>
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="password2">Confirm Password</label>
+                                    <input type="password" id="password2" name="password2" class="form-control form-control-lg" required/>
+                                </div>
 
-                            <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+                                <button class="btn btn-primary btn-lg btn-block" type="submit" name="register">Register</button>
+
+                            </form>
                         </div>
                     </div>
                 </div>

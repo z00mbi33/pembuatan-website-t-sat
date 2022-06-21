@@ -1,3 +1,16 @@
+<?php
+include 'config.php';
+
+session_start();
+if (isset($_SESSION['role'])) {
+    if($_SESSION['role']==1){
+        header("Location: index.php");
+    }
+}elseif(!isset($_SESSION['role'])){
+    header("Location: login.php");
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,11 +61,11 @@
                 <hr>
                 <div class="dropdown pb-4">
                     <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
+                        <!-- <img src="" width="30" height="30" class="rounded-circle"> -->
                         <span class="d-none d-sm-inline mx-1">Admin</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                        <li><a class="dropdown-item" href="#">Sign out</a></li>
+                        <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
                     </ul>
                 </div>
             </div>
@@ -60,39 +73,43 @@
         <div class="col py-3 bg-info">
             <h3>Welcome Admin!</h3>
             <div style="padding-top: 100px;">
-            <h4>Tiket</h4>
+            <h4>Jadwal</h4>
                 <table class="table table-success table-striped">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Hari</th>
-                            <th scope="col">Jam</th>
                             <th scope="col">Maskapai</th>
-                            <th scope="col">Nomer Pesawat</th>
+                            <th scope="col">Asal</th>
+                            <th scope="col">Tujuan</th>
+                            <th scope="col">Berangkat</th>
+                            <th scope="col">Tiba</th>
+                            <th scope="col">Kapasitas</th>
+                            <th scope="col">Tersedia</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                        </tr>
+                    <?php
+                        $query = "SELECT * FROM jadwal";
+                        $result = $conn->query($query);
+                        $rows = array();
+                        $i = 1;
+                        while($row = mysqli_fetch_array($result)){
+                            
+                            $rows[] = $row;
+                            echo "<tr>";
+                            echo "<td>$i </td>";
+                            echo "<td>".$row['maskapai']."</td>";
+                            echo "<td>".$row['asal']."</td>";
+                            echo "<td>".$row['tujuan']."</td>";
+                            echo "<td>".$row['berangkat']."</td>";
+                            echo "<td>".$row['tiba']."</td>";
+                            echo "<td>".$row['kapasitas']."</td>";
+                            echo "<td>".$row['tersedia']."</td>";
+                            echo "</tr>";
+                            $i++;
+                        }
+
+                    ?>
                     </tbody>
                 </table>
             </div>

@@ -1,3 +1,33 @@
+<?php 
+ 
+include 'config.php';
+ 
+error_reporting(0);
+ 
+session_start();
+
+if(isset($_SESSION['username'])) {
+    header("Location: index.php");
+}
+if (isset($_POST['submit'])) {
+    $username = $_POST['username'];
+    $password = md5($_POST['password']);
+ 
+    $sql = "SELECT * FROM user WHERE username='$username' AND password='$password'";
+    $result = mysqli_query($conn, $sql);
+    if ($result->num_rows > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $_SESSION['username'] = $row['username'];
+        $_SESSION['role'] = $row['role'];
+        header("Location: index.php");
+    } else {
+        echo "<script>alert('Username atau password Anda salah. Silahkan coba lagi!')</script>";
+    }
+}
+ 
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,23 +46,23 @@
                         <div class="card-body p-5 ">
 
                             <h3 class="mb-5 text-center">Sign in</h3>
+                            <form method="post" action="" name="login-form">
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="typeEmailX-2">Username</label>
+                                    <input type="text" id="typeEmailX-2" name="username" class="form-control form-control-lg" />
+                                </div>
 
-                            <div class="form-outline mb-4">
-                                <label class="form-label" for="typeEmailX-2">Email</label>
-                                <input type="email" id="typeEmailX-2" class="form-control form-control-lg" />
-                            </div>
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="typePasswordX-2">Password</label>
+                                    <input type="password" id="typePasswordX-2" name="password" class="form-control form-control-lg" />
+                                </div>
 
-                            <div class="form-outline mb-4">
-                                <label class="form-label" for="typePasswordX-2">Password</label>
-                                <input type="password" id="typePasswordX-2" class="form-control form-control-lg" />
-                            </div>
-
-                            <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
-                            <hr>
-                            <div class="form-outline mb-4">
-                                <a href="#">Dont have an account? Register here</a>
-                            </div>
-
+                                <button class="btn btn-primary btn-lg btn-block" name="submit" type="submit">Login</button>
+                                <hr>
+                                <div class="form-outline mb-4">
+                                    <a href="register.php">Dont have an account? Register here</a>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 21, 2022 at 02:23 AM
+-- Generation Time: Jun 21, 2022 at 10:02 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -29,7 +29,6 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `jadwal` (
   `id` int(5) NOT NULL,
-  `kode` int(5) NOT NULL,
   `maskapai` int(5) NOT NULL,
   `asal` varchar(255) NOT NULL,
   `tujuan` varchar(255) NOT NULL,
@@ -39,6 +38,13 @@ CREATE TABLE `jadwal` (
   `kapasitas` int(11) NOT NULL,
   `tersedia` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `jadwal`
+--
+
+INSERT INTO `jadwal` (`id`, `maskapai`, `asal`, `tujuan`, `berangkat`, `tiba`, `harga`, `kapasitas`, `tersedia`) VALUES
+(2, 1, 'Surabaya', 'Bandung', '2022-06-21 09:45:57', '2022-06-21 14:45:57', 500000, 500, 500);
 
 -- --------------------------------------------------------
 
@@ -52,6 +58,13 @@ CREATE TABLE `maskapai` (
   `kode` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `maskapai`
+--
+
+INSERT INTO `maskapai` (`id`, `nama`, `kode`) VALUES
+(1, 'Sriwijaya Air', 'SRWJY');
+
 -- --------------------------------------------------------
 
 --
@@ -60,34 +73,20 @@ CREATE TABLE `maskapai` (
 
 CREATE TABLE `tiket` (
   `id` int(11) NOT NULL,
-  `id_jadwal` int(11) NOT NULL,
-  `no_kursi` varchar(11) NOT NULL
+  `user_id` int(11) NOT NULL,
+  `jadwal_id` int(11) NOT NULL,
+  `nama` varchar(255) NOT NULL,
+  `jumlah` int(11) NOT NULL,
+  `total_byr` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Triggers `tiket`
 --
 DELIMITER $$
-CREATE TRIGGER `jadwal_available_update` AFTER UPDATE ON `tiket` FOR EACH ROW UPDATE jadwal SET jadwal.tersedia = jadwal.tersedia - 1 WHERE jadwal.id = tiket.id_jadwal
+CREATE TRIGGER `jadwal_update_trigger` AFTER UPDATE ON `tiket` FOR EACH ROW UPDATE jadwal set jadwal.tersedia = jadwal.tersedia - new.jumlah WHERE jadwal.id = new.jadwal_id
 $$
 DELIMITER ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `transaksi`
---
-
-CREATE TABLE `transaksi` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `tiket_id` int(11) NOT NULL,
-  `nama` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `telepon` varchar(20) NOT NULL,
-  `jumlah` int(11) NOT NULL,
-  `total_byr` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -98,10 +97,21 @@ CREATE TABLE `transaksi` (
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `telepon` varchar(25) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` int(1) NOT NULL DEFAULT 1 COMMENT '0=admin, 1=customer'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `name`, `email`, `telepon`, `username`, `password`, `role`) VALUES
+(1, 'admin', 'admin@admin.com', '123', 'admin', '21232f297a57a5a743894a0e4a801fc3', 0),
+(2, 'user', 'user@user.com', '321', 'user', 'ee11cbb19052e40b07aac0ca060c23ee', 1),
+(3, '123', '123@123.com', '123', '123', '202cb962ac59075b964b07152d234b70', 1);
 
 --
 -- Indexes for dumped tables
@@ -125,15 +135,8 @@ ALTER TABLE `maskapai`
 --
 ALTER TABLE `tiket`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `tiket_jadwal` (`id_jadwal`);
-
---
--- Indexes for table `transaksi`
---
-ALTER TABLE `transaksi`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `transaksi_tiket` (`tiket_id`),
-  ADD KEY `transaksi_user` (`user_id`);
+  ADD KEY `tiket_user` (`user_id`),
+  ADD KEY `tiket_jadwal` (`jadwal_id`);
 
 --
 -- Indexes for table `user`
@@ -149,13 +152,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `jadwal`
 --
 ALTER TABLE `jadwal`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `maskapai`
 --
 ALTER TABLE `maskapai`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tiket`
@@ -164,16 +167,10 @@ ALTER TABLE `tiket`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `transaksi`
---
-ALTER TABLE `transaksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -189,14 +186,8 @@ ALTER TABLE `jadwal`
 -- Constraints for table `tiket`
 --
 ALTER TABLE `tiket`
-  ADD CONSTRAINT `tiket_jadwal` FOREIGN KEY (`id_jadwal`) REFERENCES `jadwal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `transaksi`
---
-ALTER TABLE `transaksi`
-  ADD CONSTRAINT `transaksi_tiket` FOREIGN KEY (`tiket_id`) REFERENCES `tiket` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `transaksi_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tiket_jadwal` FOREIGN KEY (`jadwal_id`) REFERENCES `jadwal` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tiket_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
