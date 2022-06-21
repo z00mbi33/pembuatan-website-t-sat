@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 21, 2022 at 10:02 AM
+-- Generation Time: Jun 21, 2022 at 11:03 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -44,7 +44,8 @@ CREATE TABLE `jadwal` (
 --
 
 INSERT INTO `jadwal` (`id`, `maskapai`, `asal`, `tujuan`, `berangkat`, `tiba`, `harga`, `kapasitas`, `tersedia`) VALUES
-(2, 1, 'Surabaya', 'Bandung', '2022-06-21 09:45:57', '2022-06-21 14:45:57', 500000, 500, 500);
+(2, 1, 'Surabaya', 'Bandung', '2022-06-21 09:45:57', '2022-06-21 14:45:57', 500000, 500, 500),
+(4, 1, 'Surabaya', 'Jakarta', '2022-06-22 09:21:45', '2022-06-22 16:21:45', 100000, 450, 500);
 
 -- --------------------------------------------------------
 
@@ -111,7 +112,8 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`id`, `name`, `email`, `telepon`, `username`, `password`, `role`) VALUES
 (1, 'admin', 'admin@admin.com', '123', 'admin', '21232f297a57a5a743894a0e4a801fc3', 0),
 (2, 'user', 'user@user.com', '321', 'user', 'ee11cbb19052e40b07aac0ca060c23ee', 1),
-(3, '123', '123@123.com', '123', '123', '202cb962ac59075b964b07152d234b70', 1);
+(3, '123', '123@123.com', '123', '123', '202cb962ac59075b964b07152d234b70', 1),
+(4, '123', '123@123.com', '123', '123', '202cb962ac59075b964b07152d234b70', 1);
 
 --
 -- Indexes for dumped tables
@@ -152,7 +154,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `jadwal`
 --
 ALTER TABLE `jadwal`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `maskapai`
@@ -170,7 +172,7 @@ ALTER TABLE `tiket`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
