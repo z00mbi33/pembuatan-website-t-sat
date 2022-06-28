@@ -75,7 +75,10 @@ if (isset($_POST['register'])) {
                                     <input type="password" id="password2" name="password2" class="form-control form-control-lg" required />
                                 </div>
 
-                                <button class="btn btn-primary btn-lg btn-block" type="submit" name="register">Register</button>
+                                <div class="row">
+                                    <a href="login.php" class="btn col btn-danger btn-lg btn-block me-4"><span class="fa-solid fa-xmark"></span> Cancel    </a>
+                                    <button class="btn col btn-primary btn-lg btn-block" type="submit" name="register">Register</button>
+                                </div>
 
                             </form>
                         </div>

@@ -19,6 +19,7 @@ if (isset($_SESSION['role'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 <div class="container-fluid bg-dark">
@@ -31,17 +32,17 @@ if (isset($_SESSION['role'])) {
                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                     <li>
                         <a href="#" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Home</span> </a>
+                        <i class="fa-solid fa-house-user"></i> <span class="ms-1 d-none d-sm-inline">Home</span> </a>
                     </li>
                     <li>
                         <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                            <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Tambah</span> </a>
+                        <i class="fa-solid fa-plus"></i> <span class="ms-1 d-none d-sm-inline">Tambah</span> </a>
                         <ul class="collapse hide nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                             <li class="w-100">
-                                <a href="tambah-jadwal.php" class="nav-link px-0">Jadwal Keberangkatan</a>
+                                <a href="tambah-jadwal.php" class="nav-link px-0"><i class="fa-solid fa-folder-plus"></i><span class="ms-1 d-none d-sm-inline"> Jadwal Keberangkatan</span></a>
                             </li>
                             <li>
-                                <a href="tambah-maskapai.php" class="nav-link px-0">Maskapai</a>
+                                <a href="tambah-maskapai.php" class="nav-link px-0"><i class="fa-solid fa-plane"></i><span class="ms-1 d-none d-sm-inline"> Maskapai</span></a>
                             </li>
                         </ul>
                     </li>
@@ -49,7 +50,7 @@ if (isset($_SESSION['role'])) {
                         <hr>
                         <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                             <!-- <img src="" width="30" height="30" class="rounded-circle"> -->
-                            <span class="d-none d-sm-inline">Admin</span>
+                            <i class="fa-solid fa-user"></i><span class="ms-2 d-none d-sm-inline">Admin</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
                             <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
@@ -102,7 +103,7 @@ if (isset($_SESSION['role'])) {
                                 echo "<td>".$row['harga']."</td>";
                                 echo "<td>".$row['kapasitas']."</td>";
                                 echo "<td>".$row['tersedia']."</td>";
-                                echo "<td><a class='btn btn-success' href='edit-jadwal.php?id=$id'>Edit</a> <a class='btn btn-danger' href='hapus-jadwal.php?id=$id'>Delete</a></td>";
+                                echo "<td><a class='btn btn-success' href='edit-jadwal.php?id=$id'><span class='fa-solid fa-pencil'></span> Edit</a> <a class='btn btn-danger' href='hapus-jadwal.php?id=$id'><span class='fa-solid fa-trash-can'></span> Delete</a></td>";
                                 echo "</tr>";
                                 $i++;
                             }
@@ -133,7 +134,7 @@ if (isset($_SESSION['role'])) {
                                 echo "<td>$i </td>";
                                 echo "<td>".$row2['nama']."</td>";
                                 echo "<td>".$row2['kode']."</td>";
-                                echo "<td><a class='btn btn-success' href='edit-maskapai.php?id=$id'>Edit</a> <a class='btn btn-danger' href='hapus-maskapai.php?id=$id'>Delete</a></td>";
+                                echo "<td><a class='btn btn-success' href='edit-maskapai.php?id=$id'><span class='fa-solid fa-pencil'></span> Edit</a> <a class='btn btn-danger' href='hapus-maskapai.php?id=$id'><span class='fa-solid fa-trash-can'></span> Delete</a></td>";
                                 echo "</tr>";
                                 $i++;
                             }
