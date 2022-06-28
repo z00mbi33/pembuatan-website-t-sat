@@ -10,14 +10,20 @@ if (isset($_SESSION['role'])) {
     header("Location: login.php");
 }
 
+if(isset($_GET['id'])){
+    $id = $_GET['id'];
+    $query = "SELECT * FROM maskapai WHERE id = $id";
+    $result = $conn->query($query);
+    $hasil = mysqli_fetch_assoc($result);
+}
 
 if (isset($_POST['submit'])) {
     $nama = $_POST['nama'];
     $kode = $_POST['kode'];
 
-    $sql = "INSERT INTO maskapai (nama,kode) VALUES ('$nama','$kode')";
+    $sql = "UPDATE maskapai SET nama='$nama', kode='$kode' WHERE id = $id";
     if (mysqli_query($conn, $sql)) {
-        echo "<script>alert('Tambah data berhasil!');window.location.href = 'dashboard.php';</script>";
+        echo "<script>alert('Ubah data berhasil!');window.location.href = 'dashboard.php';</script>";
     } else {
         die();
     }
@@ -44,19 +50,19 @@ if (isset($_POST['submit'])) {
                     <div class="card shadow-2-strong" style="border-radius: 1rem;">
                         <div class="card-body p-5">
                             <a href="dashboard.php" class="btn btn-primary btn-lg btn-block"><span class="fa-solid fa-arrow-left"></span> back</a>
-                            <h3 class="mb-6 text-center">Tambah Maskapai</h3>
+                            <h3 class="mb-6 text-center">Ubah Maskapai</h3>
                             <form action="" method="POST">
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="nama">Maskapai</label>
-                                    <input type="text" id="nama" name="nama" class="form-control form-control-lg" required/>
+                                    <input type="text" id="nama" name="nama" value="<?= $hasil['nama'] ?>" class="form-control form-control-lg" required/>
                                 </div>
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="kode">Kode</label>
-                                    <input type="text" id="kode" name="kode" class="form-control form-control-lg" required/>
+                                    <input type="text" id="kode" name="kode" value="<?= $hasil['kode'] ?>" class="form-control form-control-lg" required/>
                                 </div>
 
-                                <button class="btn btn-primary btn-lg btn-block" type="submit" name="submit">Tambah</button>
+                                <button class="btn btn-primary btn-lg btn-block" type="submit" name="submit">Ubah</button>
 
                             </form>
                         </div>

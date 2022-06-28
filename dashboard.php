@@ -38,68 +38,109 @@ if (isset($_SESSION['role'])) {
                             <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Tambah</span> </a>
                         <ul class="collapse hide nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                             <li class="w-100">
-                                <a href="tambah-jadwal.php" class="nav-link px-0"> Jadwal Keberangkatan</a>
+                                <a href="tambah-jadwal.php" class="nav-link px-0">Jadwal Keberangkatan</a>
                             </li>
                             <li>
-                                <a href="tambah-maskapai.php" class="nav-link px-0"> Maskapai</a>
+                                <a href="tambah-maskapai.php" class="nav-link px-0">Maskapai</a>
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <hr>
+                        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <!-- <img src="" width="30" height="30" class="rounded-circle"> -->
+                            <span class="d-none d-sm-inline">Admin</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                            <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
+                        </ul>
+                    </li>
                 </ul>
-                <hr>
-                <div class="dropdown pb-4">
-                    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                        <!-- <img src="" width="30" height="30" class="rounded-circle"> -->
-                        <span class="d-none d-sm-inline mx-1">Admin</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                        <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
-                    </ul>
-                </div>
             </div>
         </div>
         <div class="col py-3 bg-info">
-            <h3>Welcome Admin!</h3>
-            <div style="padding-top: 100px;">
-            <h4>Jadwal</h4>
-                <table class="table table-success table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Maskapai</th>
-                            <th scope="col">Asal</th>
-                            <th scope="col">Tujuan</th>
-                            <th scope="col">Berangkat</th>
-                            <th scope="col">Tiba</th>
-                            <th scope="col">Kapasitas</th>
-                            <th scope="col">Tersedia</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                        $query = "SELECT * FROM jadwal";
-                        $result = $conn->query($query);
-                        $rows = array();
-                        $i = 1;
-                        while($row = mysqli_fetch_array($result)){
-                            
-                            $rows[] = $row;
-                            echo "<tr>";
-                            echo "<td>$i </td>";
-                            echo "<td>".$row['maskapai']."</td>";
-                            echo "<td>".$row['asal']."</td>";
-                            echo "<td>".$row['tujuan']."</td>";
-                            echo "<td>".$row['berangkat']."</td>";
-                            echo "<td>".$row['tiba']."</td>";
-                            echo "<td>".$row['kapasitas']."</td>";
-                            echo "<td>".$row['tersedia']."</td>";
-                            echo "</tr>";
-                            $i++;
-                        }
-
-                    ?>
-                    </tbody>
-                </table>
+            <h3 class="mb-4">Welcome <?php echo $_SESSION['username'];?> </h3>
+            <h4 class="mb-4">Jadwal</h4>
+                <div class="table-responsive">
+                    <table class="table table-success table-striped mb-4">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Maskapai</th>
+                                <th scope="col">Asal</th>
+                                <th scope="col">Tujuan</th>
+                                <th scope="col">Berangkat</th>
+                                <th scope="col">Tiba</th>
+                                <th scope="col">Harga</th>
+                                <th scope="col">Kapasitas</th>
+                                <th scope="col">Tersedia</th>
+                                <th scope="col">Aksi</th>  
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                            $query = "SELECT * FROM jadwal";
+                            $result = $conn->query($query);
+                            $rows = array();
+                            $i = 1;
+                            while($row = mysqli_fetch_array($result)){
+                                
+                                $rows[] = $row;
+                                $maskapai = $row['maskapai'];
+                                echo "<tr>";
+                                echo "<td>$i </td>";
+                                $sql = "SELECT kode FROM maskapai WHERE id = $maskapai";
+                                $hasil = mysqli_fetch_assoc($conn->query($sql));
+                                foreach($hasil as $hsl){
+                                    echo "<td>".$hsl."</td>";
+                                }
+                                $id = $row['id'];
+                                echo "<td>".$row['asal']."</td>";
+                                echo "<td>".$row['tujuan']."</td>";
+                                echo "<td>".$row['berangkat']."</td>";
+                                echo "<td>".$row['tiba']."</td>";
+                                echo "<td>".$row['harga']."</td>";
+                                echo "<td>".$row['kapasitas']."</td>";
+                                echo "<td>".$row['tersedia']."</td>";
+                                echo "<td><a class='btn btn-success' href='edit-jadwal.php?id=$id'>Edit</a> <a class='btn btn-danger' href='hapus-jadwal.php?id=$id'>Delete</a></td>";
+                                echo "</tr>";
+                                $i++;
+                            }
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
+                <h4 class="mb-4">Data Maskapai</h4>
+                <div class="table-responsive">
+                    <table class="table table-success table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Maskapai</th>
+                                <th scope="col">Kode</th>
+                                <th scope="col">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                            $query2 = "SELECT * FROM maskapai";
+                            $result2 = $conn->query($query2);
+                            $rows2 = array();
+                            $i = 1;
+                            while($row2 = mysqli_fetch_array($result2)){
+                                $id = $row2['id'];
+                                echo "<tr>";
+                                echo "<td>$i </td>";
+                                echo "<td>".$row2['nama']."</td>";
+                                echo "<td>".$row2['kode']."</td>";
+                                echo "<td><a class='btn btn-success' href='edit-maskapai.php?id=$id'>Edit</a> <a class='btn btn-danger' href='hapus-maskapai.php?id=$id'>Delete</a></td>";
+                                echo "</tr>";
+                                $i++;
+                            }
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

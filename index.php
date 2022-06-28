@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['username'])) {
-    echo "<script>if(confirm('Silahkan login terlebih dahulu')){document.location.href='login.php'};</script>";
+    echo "<script>alert('Silahkan login terlebih dahulu!');window.location.href = 'login.php';</script>";
 }
 ?>
 
@@ -42,6 +42,7 @@ if (!isset($_SESSION['username'])) {
                                 }
                             }
                             ?>
+                            <hr>
                             <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
                         </ul>
                     </li>

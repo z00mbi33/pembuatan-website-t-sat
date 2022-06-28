@@ -10,6 +10,13 @@ if (isset($_SESSION['role'])) {
     header("Location: login.php");
 }
 
+if(isset($_GET['id'])){
+    $id = $_GET['id'];
+    $query = "SELECT * FROM jadwal WHERE id = $id";
+    $result = $conn->query($query);
+    $hasil = mysqli_fetch_assoc($result);
+}
+
 if (isset($_POST['submit'])) {
     $maskapai = $_POST['maskapai'];
     $asal = $_POST['asal'];
@@ -20,9 +27,10 @@ if (isset($_POST['submit'])) {
     $kapasitas = $_POST['kapasitas'];
     $tersedia = $_POST['tersedia'];
 
-    $sql = "INSERT INTO jadwal (maskapai,asal,tujuan,berangkat,tiba,harga,kapasitas,tersedia) VALUES ('$maskapai','$asal','$tujuan','$berangkat','$tiba','$harga','$kapasitas','$tersedia')";
+    $sql = "UPDATE jadwal SET maskapai='$maskapai', asal='$asal', tujuan='$tujuan', 
+    berangkat='$berangkat', tiba='$tiba', harga='$harga', kapasitas='$kapasitas', tersedia='$tersedia' WHERE id = '$id'";
     if (mysqli_query($conn, $sql)) {
-        echo "<script>alert('Tambah data berhasil!');window.location.href = 'dashboard.php';</script>";
+        echo "<script>alert('Ubah data berhasil!');window.location.href = 'dashboard.php';</script>";
     } else {
         die();
     }
@@ -48,7 +56,7 @@ if (isset($_POST['submit'])) {
                     <div class="card shadow-2-strong" style="border-radius: 1rem;">
                         <div class="card-body p-5">
                             <a href="dashboard.php" class="btn btn-primary btn-lg btn-block"><span class="fa-solid fa-arrow-left"></span> back</a>
-                            <h3 class="mb-6 text-center">Tambah Jadwal Keberangkatan</h3>
+                            <h3 class="mb-6 text-center">Ubah Jadwal Keberangkatan</h3>
                             <form action="" method="POST">
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="asal">Maskapai</label>
@@ -60,7 +68,8 @@ if (isset($_POST['submit'])) {
                                         while($row = $result->fetch_array()){
                                             $id = $row['id'];
                                             $nm_maskapai = $row['nama'];
-                                            echo '<option value="'.$id.'">'.$id.' - '.$nm_maskapai.'</option>';
+                                            echo '<option value="'.$id.'" '.($id==$hasil['maskapai']?" selected":"").' 
+                                            >'.$id.' - '.$nm_maskapai.'</option>';
                                         }
                                         ?>
                                     </select>
@@ -68,52 +77,52 @@ if (isset($_POST['submit'])) {
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="asal">Asal</label>
-                                    <input type="text" id="asal" name="asal" class="form-control form-control-lg" required/>
+                                    <input type="text" id="asal" name="asal" value="<?= $hasil['asal'] ?>" class="form-control form-control-lg" required/>
                                 </div>
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="tujuan">Tujuan</label>
-                                    <input type="text" id="tujuan" name="tujuan" class="form-control form-control-lg" required/>
+                                    <input type="text" id="tujuan" name="tujuan"  value="<?= $hasil['tujuan'] ?>" class="form-control form-control-lg" required/>
                                 </div>
 
                                 <div class="row">
                                     <div class="form-outline col mb-4">
                                         <label class="form-label" for="berangkat">Berangkat (tanggal)</label>
-                                        <input type="date" id="berangkat" name="berangkat" class="form-control form-control-lg" required/>
+                                        <input type="date" id="berangkat" name="berangkat" value="<?= date("Y-m-d",strtotime($hasil['berangkat'])) ?>" class="form-control form-control-lg" required/>
                                     </div>
                                     <div class="form-outline col mb-4">
                                         <label class="form-label" for="tiba">Berangkat (waktu)</label>
-                                        <input type="time" id="berangkat_waktu" name="berangkat_waktu" class="form-control form-control-lg" required/>
+                                        <input type="time" id="berangkat_waktu" name="berangkat_waktu" value="<?= date("H:i",strtotime($hasil['berangkat'])) ?>" class="form-control form-control-lg" required/>
                                     </div>
                                 </div>
                                 
                                 <div class="row">
                                     <div class="form-outline col mb-4">
                                         <label class="form-label" for="tiba">Tiba (tanggal)</label>
-                                        <input type="date" id="tiba" name="tiba" class="form-control form-control-lg" required/>
+                                        <input type="date" id="tiba" name="tiba" value="<?= date("Y-m-d",strtotime($hasil['tiba'])) ?>" class="form-control form-control-lg" required/>
                                     </div>
                                     <div class="form-outline col mb-4">
                                         <label class="form-label" for="tiba">Tiba (waktu)</label>
-                                        <input type="time" id="tiba_waktu" name="tiba_waktu" class="form-control form-control-lg" required/>
+                                        <input type="time" id="tiba_waktu" name="tiba_waktu" value="<?= date("H:i",strtotime($hasil['tiba'])) ?>" class="form-control form-control-lg" required/>
                                     </div>
                                 </div>
                                 
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="harga">Harga</label>
-                                    <input type="text" id="harga" name="harga" class="form-control form-control-lg" required/>
+                                    <input type="text" id="harga" name="harga" value="<?= $hasil['harga'] ?>" class="form-control form-control-lg" required/>
                                 </div>
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="kapasitas">Kapasitas</label>
-                                    <input type="text" id="kapasitas" name="kapasitas" class="form-control form-control-lg" required/>
+                                    <input type="text" id="kapasitas" name="kapasitas" value="<?= $hasil['kapasitas'] ?>" class="form-control form-control-lg" required/>
                                 </div>
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="tersedia">Tersedia</label>
-                                    <input type="text" id="tersedia" name="tersedia" class="form-control form-control-lg" required/>
+                                    <input type="text" id="tersedia" name="tersedia" value="<?= $hasil['tersedia'] ?>" class="form-control form-control-lg" required/>
                                 </div>
 
-                                <button class="btn btn-primary btn-lg btn-block" type="submit" name="submit">Tambah</button>
+                                <button class="btn btn-primary btn-lg btn-block" type="submit" name="submit">Ubah</button>
 
                             </form>
                         </div>
