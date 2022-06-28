@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 21, 2022 at 11:03 AM
+-- Generation Time: Jun 28, 2022 at 04:16 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -44,8 +44,8 @@ CREATE TABLE `jadwal` (
 --
 
 INSERT INTO `jadwal` (`id`, `maskapai`, `asal`, `tujuan`, `berangkat`, `tiba`, `harga`, `kapasitas`, `tersedia`) VALUES
-(2, 1, 'Surabaya', 'Bandung', '2022-06-21 09:45:57', '2022-06-21 14:45:57', 500000, 500, 500),
-(4, 1, 'Surabaya', 'Jakarta', '2022-06-22 09:21:45', '2022-06-22 16:21:45', 100000, 450, 500);
+(7, 1, 'Jakarta', 'Bali', '2022-06-28 18:34:00', '2022-06-28 20:35:00', 1000000, 500, 500),
+(10, 1, 'Surabaya', 'Aceh', '2022-06-30 10:24:00', '2022-07-30 13:24:00', 1000000, 450, 450);
 
 -- --------------------------------------------------------
 
@@ -64,7 +64,8 @@ CREATE TABLE `maskapai` (
 --
 
 INSERT INTO `maskapai` (`id`, `nama`, `kode`) VALUES
-(1, 'Sriwijaya Air', 'SRWJY');
+(1, 'Sriwijaya Air', 'SRWJY'),
+(7, 'Lion Air', 'LION');
 
 -- --------------------------------------------------------
 
@@ -111,9 +112,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `name`, `email`, `telepon`, `username`, `password`, `role`) VALUES
 (1, 'admin', 'admin@admin.com', '123', 'admin', '21232f297a57a5a743894a0e4a801fc3', 0),
-(2, 'user', 'user@user.com', '321', 'user', 'ee11cbb19052e40b07aac0ca060c23ee', 1),
-(3, '123', '123@123.com', '123', '123', '202cb962ac59075b964b07152d234b70', 1),
-(4, '123', '123@123.com', '123', '123', '202cb962ac59075b964b07152d234b70', 1);
+(2, 'user', 'user@user.com', '321', 'user', 'ee11cbb19052e40b07aac0ca060c23ee', 1);
 
 --
 -- Indexes for dumped tables
@@ -123,8 +122,7 @@ INSERT INTO `user` (`id`, `name`, `email`, `telepon`, `username`, `password`, `r
 -- Indexes for table `jadwal`
 --
 ALTER TABLE `jadwal`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `jadwal_maskapai` (`maskapai`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `maskapai`
@@ -154,13 +152,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `jadwal`
 --
 ALTER TABLE `jadwal`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `maskapai`
 --
 ALTER TABLE `maskapai`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tiket`
@@ -172,17 +170,11 @@ ALTER TABLE `tiket`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `jadwal`
---
-ALTER TABLE `jadwal`
-  ADD CONSTRAINT `jadwal_maskapai` FOREIGN KEY (`maskapai`) REFERENCES `maskapai` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tiket`
