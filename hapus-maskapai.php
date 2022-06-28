@@ -21,5 +21,7 @@ if(isset($_GET['id'])){
     } else {
         die();
     }
+} else {
+    header("Location: dashboard.php");
 }
 ?>

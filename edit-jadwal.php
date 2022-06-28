@@ -15,6 +15,8 @@ if(isset($_GET['id'])){
     $query = "SELECT * FROM jadwal WHERE id = $id";
     $result = $conn->query($query);
     $hasil = mysqli_fetch_assoc($result);
+} else {
+    header("Location: dashboard.php");
 }
 
 if (isset($_POST['submit'])) {
