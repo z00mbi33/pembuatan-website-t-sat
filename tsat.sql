@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 28, 2022 at 04:16 PM
+-- Generation Time: Jun 29, 2022 at 03:42 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -44,8 +44,11 @@ CREATE TABLE `jadwal` (
 --
 
 INSERT INTO `jadwal` (`id`, `maskapai`, `asal`, `tujuan`, `berangkat`, `tiba`, `harga`, `kapasitas`, `tersedia`) VALUES
-(7, 1, 'Jakarta', 'Bali', '2022-06-28 18:34:00', '2022-06-28 20:35:00', 1000000, 500, 500),
-(10, 1, 'Surabaya', 'Aceh', '2022-06-30 10:24:00', '2022-07-30 13:24:00', 1000000, 450, 450);
+(7, 1, 'jakarta', 'bali', '2022-06-28 18:34:00', '2022-06-28 20:35:00', 1000000, 150, 150),
+(10, 1, 'surabaya', 'aceh', '2022-06-30 10:24:00', '2022-07-30 13:24:00', 1000000, 150, 150),
+(12, 8, 'surabaya', 'jakarta', '2022-06-29 11:39:00', '2022-06-29 12:39:00', 1000000, 200, 200),
+(13, 9, 'surabaya', 'jakarta', '2022-06-29 16:40:00', '2022-06-29 17:40:00', 900000, 150, 150),
+(14, 7, 'surabaya', 'jakarta', '2022-06-29 14:41:00', '2022-06-29 15:41:00', 900000, 150, 150);
 
 -- --------------------------------------------------------
 
@@ -65,7 +68,9 @@ CREATE TABLE `maskapai` (
 
 INSERT INTO `maskapai` (`id`, `nama`, `kode`) VALUES
 (1, 'Sriwijaya Air', 'SRWJY'),
-(7, 'Lion Air', 'LION');
+(7, 'Lion Air', 'LION'),
+(8, 'Garuda', 'GRD'),
+(9, 'Batik Air', 'BTK');
 
 -- --------------------------------------------------------
 
@@ -152,13 +157,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `jadwal`
 --
 ALTER TABLE `jadwal`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `maskapai`
 --
 ALTER TABLE `maskapai`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tiket`

@@ -82,11 +82,9 @@ if (isset($_SESSION['role'])) {
                         <?php
                             $query = "SELECT * FROM jadwal";
                             $result = $conn->query($query);
-                            $rows = array();
                             $i = 1;
                             while($row = mysqli_fetch_array($result)){
                                 
-                                $rows[] = $row;
                                 $maskapai = $row['maskapai'];
                                 echo "<tr>";
                                 echo "<td>$i </td>";
@@ -126,7 +124,6 @@ if (isset($_SESSION['role'])) {
                         <?php
                             $query2 = "SELECT * FROM maskapai";
                             $result2 = $conn->query($query2);
-                            $rows2 = array();
                             $i = 1;
                             while($row2 = mysqli_fetch_array($result2)){
                                 $id = $row2['id'];

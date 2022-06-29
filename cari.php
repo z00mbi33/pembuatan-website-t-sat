@@ -1,7 +1,20 @@
 <?php
+include 'config.php';
 session_start();
 if (!isset($_SESSION['username'])) {
     echo "<script>alert('Silahkan login terlebih dahulu!');window.location.href = 'login.php';</script>";
+}
+
+if(isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu'])){
+    $asal = $_GET['asal'];
+    $tujuan = $_GET['tujuan'];
+    $waktu = $_GET['waktu'];
+    $sql = "SELECT * FROM jadwal WHERE asal = '$asal' AND tujuan = '$tujuan' AND berangkat LIKE '$waktu%'";
+    $result = $conn->query($sql);
+    
+
+}else{
+    header("Location: index.php");
 }
 ?>
 
@@ -50,45 +63,63 @@ if (!isset($_SESSION['username'])) {
             </div>
         </div>
     </nav>
+
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-12 col-md-8 col-lg-6 col-xl-10">
-                <div class="card bg-light shadow-2-strong border border-dark rounded-3">
-                    <div class="card-body p-5 ">
-                        <h3 class="mb-4">Pesan Tiket</h3>
-                        <form method="get" action="cari.php" name="login-form">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col form-outline mb-4">
-                                        <label class="form-label" for="asal">Dari</label>
-                                        <input type="text" id="asal" name="asal" class="form-control form-control-lg" required />
-                                    </div>
-                                    <div class="col form-outline mb-4">
-                                        <label class="form-label" for="tujuan">Ke</label>
-                                        <input type="text" id="tujuan" name="tujuan" class="form-control form-control-lg" required />
-                                    </div>
-                                </div>
+            <div class="col-12 col-md-8 col-lg-6 col-xl-8">
+                
+                <?php
+                if($result->num_rows > 0){
+                    $tanggal =  date("l, d-M-Y",strtotime($waktu));
+                    echo "<h1>$asal ke $tujuan</h1>";
+                    echo "<h1 class='mb-4'><i class='fa-solid fa-calendar'></i> $tanggal</h1>";
+                ?>
 
-                                <div class="row">
-                                    <div class="col form-outline mb-4 ">
-                                        <label class="form-label" for="waktu">Tanggal Keberangkatan</label>
-                                        <input type="date" id="waktu" name="waktu" class="form-control form-control-lg" required />
-                                    </div>
-                                </div>
-
-                                <div class="row justify-content-end">
-                                    <div class="col-md-6 form-outline">
-                                        <label class="btn btn-success btn-lg btn-block form-control form-control-lg" for="submit"><i class="fa-solid fa-magnifying-glass"></i> Cari</label>
-                                        <input id="submit" type="submit" hidden>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                <div class="table-responsive">
+                    <table class="table table-success table-striped mb-4 border border-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Maskapai</th>
+                                <th scope="col">Berangkat</th>
+                                <th scope="col">Tiba</th>
+                                <th scope="col">Harga</th>
+                                <th scope="col">Aksi</th>  
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                            
+                                $i = 1;
+                                while($hasil = mysqli_fetch_array($result)){
+                                    $maskapai = $hasil['maskapai'];
+                                    $id = $hasil['id'];
+                                    echo "<tr>";
+                                    echo "<td>$i </td>";
+                                    $sql2 = "SELECT nama FROM maskapai WHERE id = $maskapai";
+                                    $hasil2 = mysqli_fetch_assoc($conn->query($sql2));
+                                    foreach($hasil2 as $hsl){
+                                        echo "<td>".$hsl."</td>";
+                                    }
+                                    echo "<td>".$hasil['berangkat']."</td>";
+                                    echo "<td>".$hasil['tiba']."</td>";
+                                    echo "<td> Rp ".$hasil['harga']."</td>";
+                                    echo "<td><a class='btn btn-success' href='#'><span class='fa-solid fa-circle-check'></span> Beli</a></td>";
+                                    echo "</tr>";
+                                    $i++;
+                                }
+                                
+                            }else{
+                                echo "<tr><td colspan='6' class='text-center'>no tiket found</td></tr>";
+                            }   
+                        ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+    
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>

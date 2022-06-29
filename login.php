@@ -2,8 +2,6 @@
  
 include 'config.php';
  
-error_reporting(0);
- 
 session_start();
 
 if(isset($_SESSION['username'])) {
@@ -27,7 +25,6 @@ if (isset($_POST['submit'])) {
  
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,12 +46,12 @@ if (isset($_POST['submit'])) {
                             <form method="post" action="" name="login-form">
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="typeEmailX-2">Username</label>
-                                    <input type="text" id="typeEmailX-2" name="username" class="form-control form-control-lg" />
+                                    <input type="text" id="typeEmailX-2" name="username" class="form-control form-control-lg" required/>
                                 </div>
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="typePasswordX-2">Password</label>
-                                    <input type="password" id="typePasswordX-2" name="password" class="form-control form-control-lg" />
+                                    <input type="password" id="typePasswordX-2" name="password" class="form-control form-control-lg" required/>
                                 </div>
 
                                 <button class="btn btn-primary btn-lg btn-block" name="submit" type="submit">Login</button>
