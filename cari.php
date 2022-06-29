@@ -69,10 +69,13 @@ if(isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu'])){
             <div class="col-12 col-md-8 col-lg-6 col-xl-8">
                 
                 <?php
-                if($result->num_rows > 0){
+                if(isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu'])){
                     $tanggal =  date("l, d-M-Y",strtotime($waktu));
                     echo "<h1>$asal ke $tujuan</h1>";
                     echo "<h1 class='mb-4'><i class='fa-solid fa-calendar'></i> $tanggal</h1>";
+                }
+                    
+                    
                 ?>
 
                 <div class="table-responsive">
@@ -89,7 +92,7 @@ if(isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu'])){
                         </thead>
                         <tbody>
                         <?php
-                            
+                            if($result->num_rows > 0){
                                 $i = 1;
                                 while($hasil = mysqli_fetch_array($result)){
                                     $maskapai = $hasil['maskapai'];
