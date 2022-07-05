@@ -1,8 +1,8 @@
 <?php
 session_start();
-if (!isset($_SESSION['username'])) {
-    echo "<script>alert('Silahkan login terlebih dahulu!');window.location.href = 'login.php';</script>";
-}
+// if (!isset($_SESSION['username'])) {
+//     echo "<script>alert('Silahkan login terlebih dahulu!');window.location.href = 'login.php';</script>";
+// }
 ?>
 
 <!DOCTYPE html>
@@ -17,21 +17,26 @@ if (!isset($_SESSION['username'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body class="bg-info">
+<body style="background-image: url('img/main.jpg'); background-size:cover; background-position: center; background-repeat: no-repeat;">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.php">Home</a>
+            <a class="navbar-brand text-info" href="index.php">T-SAT</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <?php
-                            if (isset($_SESSION['username'])) {
+                                if (isset($_SESSION['username'])) {
+                            ?>
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <?php
                                 echo $_SESSION['username'];
-                            }
+
+                                }else{
+                                    echo "<a class='nav-link' href='login.php'>Login</a>";
+                                }
                             ?>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -53,9 +58,9 @@ if (!isset($_SESSION['username'])) {
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-10">
-                <div class="card bg-light shadow-2-strong border border-dark rounded-3">
+                <div class="card opacity-75 shadow-2-strong text-dark border border-dark rounded-3">
                     <div class="card-body p-5 ">
-                        <h3 class="mb-4">Pesan Tiket</h3>
+                        <h3 class="mb-4 border-bottom border-dark">Pesan Tiket</h3>
                         <form method="get" action="cari.php" name="login-form">
                             <div class="container">
                                 <div class="row">

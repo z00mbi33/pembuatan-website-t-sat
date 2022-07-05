@@ -36,7 +36,7 @@ if (isset($_POST['register'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body style="background-color: #0ACDF8;">
+<body class="img-fluid" style="background-image: url('img/login.jpg'); background-size:cover; background-position: center; background-repeat: no-repeat;">
     <section>
         <div class="container  py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center">

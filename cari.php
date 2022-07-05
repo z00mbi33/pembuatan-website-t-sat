@@ -1,13 +1,10 @@
 <?php
 include 'config.php';
 session_start();
-if (!isset($_SESSION['username'])) {
-    echo "<script>alert('Silahkan login terlebih dahulu!');window.location.href = 'login.php';</script>";
-}
 
 if(isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu'])){
-    $asal = $_GET['asal'];
-    $tujuan = $_GET['tujuan'];
+    $asal = strtolower($_GET['asal']);
+    $tujuan = strtolower($_GET['tujuan']);
     $waktu = $_GET['waktu'];
     $sql = "SELECT * FROM jadwal WHERE asal = '$asal' AND tujuan = '$tujuan' AND berangkat LIKE '$waktu%'";
     $result = $conn->query($sql);
@@ -30,10 +27,10 @@ if(isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu'])){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body class="bg-info">
+<body style="background-image: url('img/main.jpg'); background-size:cover; background-position: center; background-repeat: no-repeat;">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.php">Home</a>
+            <a class="navbar-brand text-info" href="index.php">T-SAT</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -67,12 +64,12 @@ if(isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu'])){
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-8">
-                
+                <h4><a class="text-decoration-none text-dark" href="index.php"><span class="fa-solid fa-arrow-left"></span> Back</a></h4>
                 <?php
                 if(isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu'])){
                     $tanggal =  date("l, d-M-Y",strtotime($waktu));
-                    echo "<h1>$asal ke $tujuan</h1>";
-                    echo "<h1 class='mb-4'><i class='fa-solid fa-calendar'></i> $tanggal</h1>";
+                    echo "<h2>$asal ke $tujuan</h2>";
+                    echo "<h2 class='mb-4'><i class='fa-solid fa-calendar'></i> $tanggal</h2>";
                 }
                     
                     
@@ -107,13 +104,14 @@ if(isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu'])){
                                     echo "<td>".$hasil['berangkat']."</td>";
                                     echo "<td>".$hasil['tiba']."</td>";
                                     echo "<td> Rp ".$hasil['harga']."</td>";
-                                    echo "<td><a class='btn btn-success' href='#'><span class='fa-solid fa-circle-check'></span> Beli</a></td>";
+                                    echo "<td><a class='btn btn-success' href='tiket-amount.php?id=$id'><span class='fa-solid fa-circle-check'></span> Beli</a></td>";
                                     echo "</tr>";
                                     $i++;
                                 }
                                 
                             }else{
-                                echo "<tr><td colspan='6' class='text-center'>no tiket found</td></tr>";
+                                echo "<script>alert('Tidak ada tiket yang ditemukan!');</script>";
+                                echo "<tr><td colspan='6' class='text-center'>No Ticket Found!</td></tr>";
                             }   
                         ?>
                         </tbody>
