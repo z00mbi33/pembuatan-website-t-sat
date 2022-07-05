@@ -17,6 +17,7 @@ if (isset($_POST['submit'])) {
         $row = mysqli_fetch_assoc($result);
         $_SESSION['username'] = $row['username'];
         $_SESSION['role'] = $row['role'];
+        $_SESSION['id'] = $row['id'];
         header("Location: index.php");
     } else {
         echo "<script>alert('Username atau password Anda salah. Silahkan coba lagi!')</script>";

@@ -2,7 +2,6 @@
 require_once("config.php");
 
 if (isset($_POST['register'])) {
-    // filter data yang diinputkan
     $name = $_POST['name'];
     $username = $_POST['username'];
     $email = $_POST['email'];

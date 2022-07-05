@@ -2,10 +2,11 @@
 include 'config.php';
 session_start();
 
-if(isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu'])){
+if(isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu']) && isset($_GET['penumpang'])){
     $asal = strtolower($_GET['asal']);
     $tujuan = strtolower($_GET['tujuan']);
     $waktu = $_GET['waktu'];
+    $jumlah = $_GET['penumpang'];
     $sql = "SELECT * FROM jadwal WHERE asal = '$asal' AND tujuan = '$tujuan' AND berangkat LIKE '$waktu%'";
     $result = $conn->query($sql);
     
@@ -22,12 +23,12 @@ if(isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu'])){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Cari Jadwal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body style="background-image: url('img/main.jpg'); background-size:cover; background-position: center; background-repeat: no-repeat;">
+<body class="vh-100" style="background-image: url('img/main.jpg'); background-size:cover; background-position: center; background-repeat: no-repeat;">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand text-info" href="index.php">T-SAT</a>
@@ -37,7 +38,7 @@ if(isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu'])){
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="navbar-brand dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <?php
                             if (isset($_SESSION['username'])) {
                                 echo $_SESSION['username'];
@@ -50,6 +51,9 @@ if(isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu'])){
                                 if ($_SESSION['role'] == 0) {
                                     echo "<a class='dropdown-item' href='dashboard.php'>Dashboard</a>";
                                     echo "<hr>";
+                                }else{
+                                    echo "<a class='dropdown-item' href='profile.php'>My Profile</a>";
+                                    echo "<hr>";
                                 }
                             }
                             ?>
@@ -61,7 +65,7 @@ if(isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu'])){
         </div>
     </nav>
 
-    <div class="container py-5 h-100">
+    <div class="container mt-5">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-8">
                 <h4><a class="text-decoration-none text-dark" href="index.php"><span class="fa-solid fa-arrow-left"></span> Back</a></h4>
@@ -104,7 +108,7 @@ if(isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu'])){
                                     echo "<td>".$hasil['berangkat']."</td>";
                                     echo "<td>".$hasil['tiba']."</td>";
                                     echo "<td> Rp ".$hasil['harga']."</td>";
-                                    echo "<td><a class='btn btn-success' href='tiket-amount.php?id=$id'><span class='fa-solid fa-circle-check'></span> Beli</a></td>";
+                                    echo "<td><a class='btn btn-success' href='tiket-amount.php?id=$id&maskapai=$hsl&penumpang=$jumlah'><span class='fa-solid fa-circle-check'></span> Beli</a></td>";
                                     echo "</tr>";
                                     $i++;
                                 }

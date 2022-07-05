@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 29, 2022 at 03:42 AM
+-- Generation Time: Jul 05, 2022 at 10:25 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -44,11 +44,11 @@ CREATE TABLE `jadwal` (
 --
 
 INSERT INTO `jadwal` (`id`, `maskapai`, `asal`, `tujuan`, `berangkat`, `tiba`, `harga`, `kapasitas`, `tersedia`) VALUES
-(7, 1, 'jakarta', 'bali', '2022-06-28 18:34:00', '2022-06-28 20:35:00', 1000000, 150, 150),
-(10, 1, 'surabaya', 'aceh', '2022-06-30 10:24:00', '2022-07-30 13:24:00', 1000000, 150, 150),
-(12, 8, 'surabaya', 'jakarta', '2022-06-29 11:39:00', '2022-06-29 12:39:00', 1000000, 200, 200),
-(13, 9, 'surabaya', 'jakarta', '2022-06-29 16:40:00', '2022-06-29 17:40:00', 900000, 150, 150),
-(14, 7, 'surabaya', 'jakarta', '2022-06-29 14:41:00', '2022-06-29 15:41:00', 900000, 150, 150);
+(7, 1, 'jakarta', 'bali', '2022-07-09 18:34:00', '2022-07-09 20:35:00', 1000000, 150, 150),
+(10, 1, 'surabaya', 'aceh', '2022-07-09 10:24:00', '2022-07-09 10:24:00', 1000000, 150, 150),
+(12, 8, 'surabaya', 'jakarta', '2022-07-09 11:39:00', '2022-07-09 11:39:00', 1000000, 200, 200),
+(13, 9, 'surabaya', 'jakarta', '2022-07-09 16:40:00', '2022-07-09 16:40:00', 900000, 150, 150),
+(14, 7, 'surabaya', 'jakarta', '2022-07-09 14:51:49', '2022-07-09 15:41:00', 900000, 150, 150);
 
 -- --------------------------------------------------------
 
@@ -82,10 +82,18 @@ CREATE TABLE `tiket` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `jadwal_id` int(11) NOT NULL,
-  `nama` varchar(255) NOT NULL,
   `jumlah` int(11) NOT NULL,
-  `total_byr` int(11) NOT NULL
+  `total_byr` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tiket`
+--
+
+INSERT INTO `tiket` (`id`, `user_id`, `jadwal_id`, `jumlah`, `total_byr`, `created_at`) VALUES
+(1, 2, 13, 2, 1800000, '2022-07-06 03:18:05'),
+(2, 2, 12, 1, 1000000, '2022-07-06 03:18:18');
 
 --
 -- Triggers `tiket`
@@ -169,7 +177,7 @@ ALTER TABLE `maskapai`
 -- AUTO_INCREMENT for table `tiket`
 --
 ALTER TABLE `tiket`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user`

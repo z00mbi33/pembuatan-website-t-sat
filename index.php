@@ -1,8 +1,6 @@
 <?php
 session_start();
-// if (!isset($_SESSION['username'])) {
-//     echo "<script>alert('Silahkan login terlebih dahulu!');window.location.href = 'login.php';</script>";
-// }
+
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +15,7 @@ session_start();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body style="background-image: url('img/main.jpg'); background-size:cover; background-position: center; background-repeat: no-repeat;">
+<body class="vh-100" style="background-image: url('img/main.jpg'); background-size:cover; background-position: center; background-repeat: no-repeat;">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand text-info" href="index.php">T-SAT</a>
@@ -30,7 +28,7 @@ session_start();
                             <?php
                                 if (isset($_SESSION['username'])) {
                             ?>
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="navbar-brand dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <?php
                                 echo $_SESSION['username'];
 
@@ -45,6 +43,9 @@ session_start();
                                 if ($_SESSION['role'] == 0) {
                                     echo "<a class='dropdown-item' href='dashboard.php'>Dashboard</a>";
                                     echo "<hr>";
+                                }else{
+                                    echo "<a class='dropdown-item' href='profile.php'>My Profile</a>";
+                                    echo "<hr>";
                                 }
                             }
                             ?>
@@ -55,7 +56,7 @@ session_start();
             </div>
         </div>
     </nav>
-    <div class="container py-5 h-100">
+    <div class="container mt-5">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-10">
                 <div class="card opacity-75 shadow-2-strong text-dark border border-dark rounded-3">
@@ -75,6 +76,10 @@ session_start();
                                 </div>
 
                                 <div class="row">
+                                    <div class="col form-outline mb-4">
+                                        <label class="form-label" for="tujuan">Penumpang</label>
+                                        <input type="number" id="penumpang" name="penumpang" class="form-control form-control-lg" required />
+                                    </div>
                                     <div class="col form-outline mb-4 ">
                                         <label class="form-label" for="waktu">Tanggal Keberangkatan</label>
                                         <input type="date" id="waktu" name="waktu" class="form-control form-control-lg" required />
