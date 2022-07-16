@@ -2,16 +2,20 @@
 include 'config.php';
 session_start();
 
-if(isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu']) && isset($_GET['penumpang'])){
+if(isset($_GET['penumpang'])){
+    if($_GET['penumpang'] <= 0){
+        echo "<script>alert('penumpang tidak boleh kosong!');window.location.href = 'index.php';</script>";
+    }
+}
+
+if (isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu']) && isset($_GET['penumpang'])) {
     $asal = strtolower($_GET['asal']);
     $tujuan = strtolower($_GET['tujuan']);
     $waktu = $_GET['waktu'];
     $jumlah = $_GET['penumpang'];
     $sql = "SELECT * FROM jadwal WHERE asal = '$asal' AND tujuan = '$tujuan' AND berangkat LIKE '$waktu%'";
     $result = $conn->query($sql);
-    
-
-}else{
+} else {
     header("Location: index.php");
 }
 ?>
@@ -35,33 +39,41 @@ if(isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu']) && is
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item dropdown">
-                        <a class="navbar-brand dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <?php
+            if (isset($_SESSION['username'])) {
+            ?>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="navbar-brand dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
                             <?php
-                            if (isset($_SESSION['username'])) {
-                                echo $_SESSION['username'];
-                            }
+                            echo $_SESSION['username'];
+                        }
                             ?>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <?php
-                            if (isset($_SESSION['role'])) {
-                                if ($_SESSION['role'] == 0) {
-                                    echo "<a class='dropdown-item' href='dashboard.php'>Dashboard</a>";
-                                    echo "<hr>";
-                                }else{
-                                    echo "<a class='dropdown-item' href='profile.php'>My Profile</a>";
-                                    echo "<hr>";
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <?php
+                                if (isset($_SESSION['role'])) {
+                                    if ($_SESSION['role'] == 0) {
+                                        echo "<a class='dropdown-item' href='dashboard.php'>Dashboard</a>";
+                                        echo "<hr>";
+                                        echo "<li><a class='dropdown-item' href='logout.php'>Sign out</a></li>";
+                                    } elseif ($_SESSION['role'] == 1) {
+                                        echo "<a class='dropdown-item' href='profile.php'>My Profile</a>";
+                                        echo "<hr>";
+                                        echo "<li><a class='dropdown-item' href='logout.php'>Sign out</a></li>";
+                                    }
+
+                                ?>
+
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            <?php
                                 }
-                            }
-                            ?>
-                            <li><a class="dropdown-item" href="logout.php">Sign out</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+            ?>
         </div>
     </nav>
 
@@ -70,13 +82,13 @@ if(isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu']) && is
             <div class="col-12 col-md-8 col-lg-6 col-xl-8">
                 <h4><a class="text-decoration-none text-dark" href="index.php"><span class="fa-solid fa-arrow-left"></span> Back</a></h4>
                 <?php
-                if(isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu'])){
-                    $tanggal =  date("l, d-M-Y",strtotime($waktu));
+                if (isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu'])) {
+                    $tanggal =  date("l, d-M-Y", strtotime($waktu));
                     echo "<h2>$asal ke $tujuan</h2>";
                     echo "<h2 class='mb-4'><i class='fa-solid fa-calendar'></i> $tanggal</h2>";
                 }
-                    
-                    
+
+
                 ?>
 
                 <div class="table-responsive">
@@ -88,43 +100,42 @@ if(isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu']) && is
                                 <th scope="col">Berangkat</th>
                                 <th scope="col">Tiba</th>
                                 <th scope="col">Harga</th>
-                                <th scope="col">Aksi</th>  
+                                <th scope="col">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                        <?php
-                            if($result->num_rows > 0){
+                            <?php
+                            if ($result->num_rows > 0) {
                                 $i = 1;
-                                while($hasil = mysqli_fetch_array($result)){
+                                while ($hasil = mysqli_fetch_array($result)) {
                                     $maskapai = $hasil['maskapai'];
                                     $id = $hasil['id'];
                                     echo "<tr>";
                                     echo "<td>$i </td>";
                                     $sql2 = "SELECT nama FROM maskapai WHERE id = $maskapai";
                                     $hasil2 = mysqli_fetch_assoc($conn->query($sql2));
-                                    foreach($hasil2 as $hsl){
-                                        echo "<td>".$hsl."</td>";
+                                    foreach ($hasil2 as $hsl) {
+                                        echo "<td>" . $hsl . "</td>";
                                     }
-                                    echo "<td>".$hasil['berangkat']."</td>";
-                                    echo "<td>".$hasil['tiba']."</td>";
-                                    echo "<td> Rp ".$hasil['harga']."</td>";
+                                    echo "<td>" . $hasil['berangkat'] . "</td>";
+                                    echo "<td>" . $hasil['tiba'] . "</td>";
+                                    echo "<td> Rp " . $hasil['harga'] . "</td>";
                                     echo "<td><a class='btn btn-success' href='tiket-amount.php?id=$id&maskapai=$hsl&penumpang=$jumlah'><span class='fa-solid fa-circle-check'></span> Beli</a></td>";
                                     echo "</tr>";
                                     $i++;
                                 }
-                                
-                            }else{
+                            } else {
                                 echo "<script>alert('Tidak ada tiket yang ditemukan!');</script>";
                                 echo "<tr><td colspan='6' class='text-center'>No Ticket Found!</td></tr>";
-                            }   
-                        ?>
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-    
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>

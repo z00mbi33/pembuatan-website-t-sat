@@ -21,7 +21,7 @@ if (isset($_SESSION['role'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body class="bg-info">
+<body class="vh-100 bg-info">
 <div class="container-fluid bg-dark">
     <div class="row flex-nowrap">
         <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
@@ -60,7 +60,7 @@ if (isset($_SESSION['role'])) {
             </div>
         </div>
         <div class="col py-3 bg-info">
-            <h3 class="mb-4">Welcome <?php echo $_SESSION['username'];?> </h3>
+            <h3 class="mb-4">Welcome <?php echo $_SESSION['username'];?> !</h3>
             <h4 class="mb-4">Jadwal</h4>
                 <div class="table-responsive">
                     <table class="table table-success table-striped mb-4">

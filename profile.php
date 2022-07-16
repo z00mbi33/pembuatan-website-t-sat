@@ -72,6 +72,7 @@ if (!isset($_SESSION['username'])) {
                                 <table class="table table-striped border border-dark">
                                     <thead>
                                         <tr>
+                                            <th scope="col">No</th>
                                             <th scope="col">Tanggal</th>
                                             <th scope="col">Jumlah</th>
                                             <th scope="col">Aksi</th>
@@ -81,16 +82,18 @@ if (!isset($_SESSION['username'])) {
                                         <?php
                                         if ($result = mysqli_query($conn, $query)) {
                                             if ($result->num_rows > 0) {
+                                                $no = 1;
                                                 while($hasil = mysqli_fetch_array($result)){
                                                     $id = $hasil['id'];
                                                     $tanggal = $hasil['created_at'];
                                                     $jumlah = $hasil['jumlah'];
                                                     echo"<tr>";
+                                                    echo "<td>$no</td>";
                                                     echo "<td>$tanggal</td>";
                                                     echo "<td>$jumlah</td>";
-                                                    echo "<td><a class='btn btn-success' href='#'><span class='fa-solid fa-eye'></span> View</a>";
+                                                    echo "<td><a class='btn btn-success' href='view.php?id=$id'><span class='fa-solid fa-eye'></span> View</a>";
                                                     echo"</tr>";
-
+                                                    ++$no;
                                                 }
                                             } else {
                                                 echo "<tr><td class='text-center' colspan='3'>Anda belum melakukan pemesanan</td></tr>";
