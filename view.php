@@ -38,6 +38,25 @@ if (!isset($_GET['id'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"> </script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"> </script>
+
+    <style>
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #print,
+            #print * {
+                visibility: visible;
+            }
+
+            #print {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
+    </style>
 </head>
 
 <body class="vh-100" style="background-image: url('img/main.jpg'); background-size:cover; background-position: center; background-repeat: no-repeat;">
@@ -80,50 +99,52 @@ if (!isset($_GET['id'])) {
             </div>
         </div>
     </nav>
-    <div class="container mt-4">
+    <div class="container mt-2">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12 col-md-8 col-lg-6 col-xl-9">
                 <h4><a class="text-decoration-none text-dark" href="profile.php"><span class="fa-solid fa-arrow-left"></span> Back</a></h4>
                 <div class="card shadow-2-strong text-dark border border-dark rounded-3">
-                    <div class="card-body p-5 ">
-                        <div class="container" id="print">
-                        <h3 class="mb-4 border-bottom border-dark"><i class="fa-solid fa-plane"></i> TSAT</h3>
-                            <div class="row">
-                                <h5 class="col-md-6">Nama Penumpang</h5>
-                                <h5 class="col-md-6">Jumlah</h5>
-                            </div>
+                    <div class="card-body p-4">
+                        <div class="container mb-2" id="print">
+                            <div class="container" >
+                                <h3 class="mb-4 border-bottom border-dark"><i class="fa-solid fa-plane"></i> TSAT</h3>
+                                <div class="row">
+                                    <h5 class="col-6">Nama Penumpang</h5>
+                                    <h5 class="col-6">Jumlah</h5>
+                                </div>
 
-                            <div class="row mb-2">
-                                <p class="col-md-6 text-capitalize"><?= $userdata['name'] ?></p>
-                                <p class="col-md-6"><?= $result['jumlah'] ?></p>
-                            </div>
+                                <div class="row mb-2">
+                                    <p class="col-6 text-capitalize"><?= $userdata['name'] ?></p>
+                                    <p class="col-6"><?= $result['jumlah'] ?></p>
+                                </div>
 
-                            <div class="row">
-                                <h5 class="col-md-3">Dari</h5>
-                                <h5 class="col-md-3">Maskapai</h5>
-                                <h5 class="col-md-3">Tanggal</h5>
-                                <h5 class="col-md-3">Waktu</h5>
-                            </div>
+                                <div class="row">
+                                    <h5 class="col-3">Dari</h5>
+                                    <h5 class="col-3">Maskapai</h5>
+                                    <h5 class="col-3">Tanggal</h5>
+                                    <h5 class="col-3">Waktu</h5>
+                                </div>
 
-                            <div class="row mb-2">
-                                <p class="col-md-3 text-capitalize"><?= $jadwaldata['asal'] ?></p>
-                                <p class="col-md-3 text-capitalize"><?= $maskapaidata['nama'] ?></p>
-                                <p class="col-md-3 text-capitalize"><?= $tanggal ?></p>
-                                <p class="col-md-3 text-capitalize"><?= $jam ?></p>
-                            </div>
+                                <div class="row mb-2">
+                                    <p class="col-3 text-capitalize"><?= $jadwaldata['asal'] ?></p>
+                                    <p class="col-3 text-capitalize"><?= $maskapaidata['nama'] ?></p>
+                                    <p class="col-3 text-capitalize"><?= $tanggal ?></p>
+                                    <p class="col-3 text-capitalize"><?= $jam ?></p>
+                                </div>
 
-                            <div class="row">
-                                <h5>Ke</h5>
-                            </div>
+                                <div class="row">
+                                    <h5>Ke</h5>
+                                </div>
 
-                            <div class="row mb-2">
-                                <p class="text-capitalize"><?= $jadwaldata['tujuan'] ?></p>
+                                <div class="row mb-2">
+                                    <p class="text-capitalize"><?= $jadwaldata['tujuan'] ?></p>
+                                </div>
+                                <hr>
                             </div>
-                            <hr>
                         </div>
-                        <div class="row justify-content-end">
-                            <div class="col-md-4">
-                                <a class="btn btn-success btn-lg btn-block form-control form-control-lg" onclick="doCapture()" href="#"><i class="fa-solid fa-print"></i> Cetak tiket</a>
+                        <div class="row justify-content-center">
+                            <div class="col-4">
+                                <a class="btn btn-success btn-lg btn-block form-control form-control-lg" onclick="doCapture()" href="#"><i class="fa-solid fa-image"></i> Simpan Tiket</a>
                             </div>
                         </div>
                     </div>
@@ -137,37 +158,18 @@ if (!isset($_GET['id'])) {
 
 
 <script>
-function doCapture() {
-    window.scrollTo(0, 0);
- 
-    // Convert the div to image (canvas)
-    html2canvas(document.getElementById("print")).then(function (canvas) {
- 
-        // Create an AJAX object
-        var ajax = new XMLHttpRequest();
- 
-        // Setting method, server file name, and asynchronous
-        ajax.open("POST", "save-capture.php", true);
- 
-        // Setting headers for POST method
-        ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
- 
-        // Sending image data to server
-        ajax.send("image=" + canvas.toDataURL("image/jpeg", 1)+"&id=<?= $id?>");
- 
-        // Receiving response from server
-        // This function will be called multiple times
-        ajax.onreadystatechange = function () {
- 
-            // Check when the requested is completed
-            if (this.readyState == 4 && this.status == 200) {
- 
-                // Displaying response from server
-                console.log(this.responseText);
-            }
-        };
-    });
-}
+    function doCapture() {
+        window.scrollTo(0, 0);
+
+        // Convert the div to image (canvas)
+        html2canvas(document.getElementById("print")).then(function(canvas) {
+            var a = document.createElement('a');
+            a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+            a.download = 'tiket_saya.jpg';
+            a.click();
+        });
+
+    }
 </script>
 
 </html>
