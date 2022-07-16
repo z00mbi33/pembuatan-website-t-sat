@@ -1,5 +1,9 @@
 # pembuatan-website-t-sat
-# TODO
-- Halaman login/register
-- Halaman order
-- Halaman profile
+# Setup DB
+- DBname = tsat
+# login admin
+- username = admin
+- password = admin
+# login user
+- username = user
+- password = user
