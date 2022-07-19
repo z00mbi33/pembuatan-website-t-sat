@@ -18,15 +18,15 @@ if (isset($_GET['id']) && isset($_GET['penumpang']) && isset($_GET['maskapai']))
 
 if (isset($_POST['submit'])){
     $total_byr = $_POST['total'];
+    $update = $_POST['update_jumlah'];
     $sql2 = "INSERT INTO tiket (user_id, jadwal_id, jumlah, total_byr) VALUES ('$userid', '$id', '$penumpang', $total_byr)";
+    $sql3 = "UPDATE jadwal SET tersedia='$update' WHERE id = '$id'";
     if (mysqli_query($conn, $sql2)) {
-        echo "<script>alert('Pemesanan Sukses');window.location.href = 'index.php';</script>";
-    } else {
-        die();
+        if (mysqli_query($conn, $sql3)){
+            echo "<script>alert('Pemesanan Sukses');window.location.href = 'index.php';</script>";
+        }
     }
-
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -91,6 +91,7 @@ if (isset($_POST['submit'])){
                     $jam_brgkt = date("H:i", strtotime($hasil['berangkat']));
                     $jam_tiba = date("H:i", strtotime($hasil['tiba']));
                     $total = $penumpang * $hasil['harga'];
+                    $update_jumlah = $hasil['tersedia'] - $penumpang;
                 }
                 ?>
 
@@ -120,6 +121,7 @@ if (isset($_POST['submit'])){
                                     <div class="form-outline mb-4">
                                         <?= "<h4 class='mb-4'>Total: Rp $total ($penumpang Penumpang)</h4>" ?>
                                         <input id="total" type="text" name="total" value="<?= $total ?>" hidden>
+                                        <input id="update_jumlah" type="text" name="update_jumlah" value="<?= $update_jumlah ?>" hidden>
                                     </div>
 
                                     <button class="btn btn-primary btn-lg btn-block" name="submit" type="submit"><i class="fa-regular fa-square-check"></i> Konfirm</button>

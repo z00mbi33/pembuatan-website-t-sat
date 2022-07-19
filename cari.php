@@ -120,7 +120,11 @@ if (isset($_GET['asal']) && isset($_GET['tujuan']) && isset($_GET['waktu']) && i
                                     echo "<td>" . $hasil['berangkat'] . "</td>";
                                     echo "<td>" . $hasil['tiba'] . "</td>";
                                     echo "<td> Rp " . $hasil['harga'] . "</td>";
-                                    echo "<td><a class='btn btn-success' href='tiket-amount.php?id=$id&maskapai=$hsl&penumpang=$jumlah'><span class='fa-solid fa-circle-check'></span> Beli</a></td>";
+                                    if($hasil['tersedia']!=0){
+                                        echo "<td><a class='btn btn-success' href='tiket-amount.php?id=$id&maskapai=$hsl&penumpang=$jumlah'><span class='fa-solid fa-circle-check'></span> Beli</a></td>";
+                                    }else{
+                                        echo "<td><a class='btn btn-warning disabled' href='#'><span class='fa-solid fa-xmark'></span> Full Booked</a></td>";
+                                    }
                                     echo "</tr>";
                                     $i++;
                                 }
